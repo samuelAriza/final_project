@@ -1,1 +1,4 @@
 *.kra
+*.kra~
+.vscode
+__pycache__
