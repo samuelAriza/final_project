@@ -12,18 +12,36 @@ with open("data_players.json", "r+") as file:
 
 minheap = MinHeap(len(data))
 
-for i in range (0, len(data)):
-    minheap.insert(data[i]['experience'])
+def match(number):
 
-for j in range(0, len(data)//2):
-    experience1 = minheap.removeMin()
-    experience2 = minheap.removeMin()
-    for k in range(0, len(data)):
-        if(data[k]["experience"] == experience1):
-            name1 = data[k]["name"]
-        if(data[k]["experience"] == experience2):
-            name2 = data[k]["name"]
-    player1, player2, msj = game()
-    print(f'{name1} : {experience1} -> ({player1}) Vs. {name2} : {experience2} -> ({player2}) - Win: {msj}')
+    print(f'{number} ROUND')
+    for i in range (0, len(data)):
+        minheap.insert(data[i]['experience'])
+    try: 
+        while len(data) > 1:
+            experience1 = minheap.removeMin()
+            experience2 = minheap.removeMin()
 
+            for k in range(0, len(data)):
 
+                if(data[k]["experience"] == experience1):
+                    name1 = data[k]["name"]
+                    number1 = k
+
+                if(data[k]["experience"] == experience2):
+                    name2 = data[k]["name"]
+                    number2 = k
+
+            player1, player2, msj = game()
+            print(f'{name1} : {experience1} -> ({player1}) Vs. {name2} : {experience2} -> ({player2}) - Win: {msj}\n')
+    
+            if(msj == "Player 1"):
+                data.pop(number2)
+            else:
+                data.pop(number1)
+    except:
+        match(number + 1)
+        
+
+match(1)
+print(f'The winner is: {data[0]["name"]} with experience: {data[0]["experience"]}')
